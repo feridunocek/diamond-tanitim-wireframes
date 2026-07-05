@@ -31,6 +31,10 @@ async function handleContact(request, env) {
       return json({ error: 'Ad ve e-posta zorunlu.' }, 400);
     }
 
+    if (!env.Mailchannels) {
+      return json({ error: 'API key eksik.', debug: 'env.Mailchannels is undefined' }, 500);
+    }
+
     const res = await fetch('https://api.mailchannels.net/tx/v1/send', {
       method: 'POST',
       headers: {
