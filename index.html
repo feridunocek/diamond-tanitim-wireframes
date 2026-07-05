@@ -1330,24 +1330,29 @@ document.getElementById('cForm').addEventListener('submit', async function(e) {
   btn.textContent = 'Gönderiliyor…'
 
   try {
-    const data = Object.fromEntries(new FormData(this))
-    const res  = await fetch('/api/contact', {
+    const fd = Object.fromEntries(new FormData(this))
+    const res = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify({
+        access_key: 'a9038fb1-b0fe-426b-8c8a-2a82eb4baa05',
+        subject: `Yeni teklif talebi — ${fd.name}`,
+        from_name: 'Diamond Web Formu',
+        replyto: fd.email,
+        ...fd
+      })
     })
     const json = await res.json()
 
-    if (res.ok) {
+    if (json.success) {
       this.querySelectorAll('.lf, .ct-consent').forEach(el => el.style.display = 'none')
       btn.style.display = 'none'
       ok.classList.add('show')
     } else {
-      err.textContent = json.error || 'Bir hata oluştu. Lütfen tekrar deneyin.'
+      err.textContent = json.message || 'Bir hata oluştu. Lütfen tekrar deneyin.'
       err.classList.add('show')
       btn.disabled = false
       btn.textContent = 'Teklif Al'
-      if (json.debug) console.error('MailChannels debug:', json.debug)
     }
   } catch {
     err.textContent = 'Bağlantı hatası. Lütfen tekrar deneyin.'
