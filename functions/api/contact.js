@@ -23,7 +23,7 @@ export async function onRequestPost(context) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Auth-Token': env.MAILCHANNELS_API_KEY,
+        'X-Auth-Token': env.Mailchannels,
       },
       body: JSON.stringify({
         personalizations: [{
