@@ -666,7 +666,8 @@ a{text-decoration:none;color:inherit}
 
 .ct-error{font-size:12.5px;color:#f87171;min-height:18px;margin-top:8px;display:none}
 .ct-error.show{display:block}
-.ct-success{display:flex;align-items:center;gap:14px;padding:20px 0 4px}
+.ct-success{display:none;align-items:center;gap:14px;padding:20px 0 4px}
+.ct-success.show{display:flex}
 .ct-success p{font-size:14px;color:rgba(255,255,255,.6);line-height:1.55}
 .btn-send[disabled]{opacity:.5;cursor:not-allowed;transform:none!important}
 .btn-send{
@@ -1340,12 +1341,13 @@ document.getElementById('cForm').addEventListener('submit', async function(e) {
     if (res.ok) {
       this.querySelectorAll('.lf, .ct-consent').forEach(el => el.style.display = 'none')
       btn.style.display = 'none'
-      ok.hidden = false
+      ok.classList.add('show')
     } else {
       err.textContent = json.error || 'Bir hata oluştu. Lütfen tekrar deneyin.'
       err.classList.add('show')
       btn.disabled = false
       btn.textContent = 'Teklif Al'
+      if (json.debug) console.error('MailChannels debug:', json.debug)
     }
   } catch {
     err.textContent = 'Bağlantı hatası. Lütfen tekrar deneyin.'

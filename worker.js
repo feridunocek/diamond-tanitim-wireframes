@@ -66,8 +66,9 @@ async function handleContact(request, env) {
     });
 
     if (!res.ok) {
-      console.error('MailChannels error:', await res.text());
-      return json({ error: 'Mail gönderilemedi. Lütfen tekrar deneyin.' }, 500);
+      const errBody = await res.text();
+      console.error('MailChannels error:', errBody);
+      return json({ error: 'Mail gönderilemedi. Lütfen tekrar deneyin.', debug: errBody }, 500);
     }
 
     return json({ ok: true }, 200);
